@@ -1,0 +1,122 @@
+{% extends 'template_base.html' %}
+
+{% block page_title %}
+    Contact
+{% endblock %}
+
+{% block page_title2 %}
+    <h1>Avez-vous un projet ?</h1>
+    <p>Prenez contact et faites-moi savoir comment je peux vous aider. Remplissez le formulaire et je vous contacterai dès que possible.</p>
+{% endblock %}
+
+{% block contain %}
+
+<div class="container">
+    <!--=== Breadcrumbs ===-->
+    <nav class="pt-xxl-5 pt-3 pb-1">
+        <ul class="list-inline px-0">
+            <li class="list-inline-item me-0">
+                <a class="text-primary" aria-label="Accueil" href="https://www.construction21.org/france/">Accueil</a>
+            </li>
+            <li class="list-inline-item me-0">
+                <span class="mx-2">/</span>
+                <a href="https://www.construction21.org/france/articles/">Actualités</a>
+            </li>
+            <li class="list-inline-item me-0">
+                <span class="mx-2">/</span>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="row d-flex">
+        <div class="order-1 col-sm-12 col-lg-8">
+            <article id="content_body" class="min-vh-50 pb-5">
+                <h1 class="h2" style="letter-spacing: -1px;">{{ article.title }}</h1>
+
+                <div class="d-flex row no-gutters align-items-center my-3">
+                    <div class="col-lg-6 col-12">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 me-3">
+                                <a aria-label="profile" class="lavatar avatar-lg avatar-circle mx-auto" href="https://www.construction21.org/france/member/19568/">
+                                    <span class="avatar avatar-lg avatar-primary avatar-circle zi-1 position-absolute">
+                                        <span class="avatar-initials">A</span>
+                                    </span>
+                                    <img loading="lazy" class="rounded-circle avatar-circle avatar-lg cropped" src="https://www.construction21.org/france/data/sources/users/19089/20220825140302-am2.jpg" alt="Amandine Martinet" title="Amandine Martinet" onerror="this.onerror=null;this.src='https://www.construction21.org/france/images/pix.gif';">
+                                </a>
+                            </div>
+
+                            <div class="flex-grow-1 ms-3">
+                                <span>Rédigé par</span>
+                                <h3 class="h6 mb-0">
+                                    <a class="link link-dark" href="https://www.construction21.org/france/member/19568/">Amandine Martinet</a>
+                                </h3>
+                                <p class="text-muted mb-0 fs-5">Journaliste - Construction21 France</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-12 d-flex flex-column text-end">
+                        <span id="mainHit" class="fs-5 text-muted">
+                            <i class="bi bi-eye"></i> 97
+                        </span>
+                        <em class="text-muted fs-5">Dernière modification le 03/01/2025 - 12:13</em>
+                    </div>
+                </div>
+
+                <div>
+                    <section class="col-12 clearfix g-my-10">
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/w6luZXJnaWVzIHJlbm91dmVsYWJsZXM="><i class="bi bi-tag"></i>&nbsp;énergies renouvelables</a>
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/Z8Opb3RoZXJtaWU="><i class="bi bi-tag"></i>&nbsp;géothermie</a>
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/VUU="><i class="bi bi-tag"></i>&nbsp;UE</a>
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/RW5S"><i class="bi bi-tag"></i>&nbsp;EnR</a>
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/aW5kdXN0cmll"><i class="bi bi-tag"></i>&nbsp;industrie</a>
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/w6luZXJnaWU="><i class="bi bi-tag"></i>&nbsp;énergie</a>
+                        <a class="badge bg-primary mb-1 me-1 badge-tag-custom" target="_blank" href="../../tags/Y2hhbGV1cg=="><i class="bi bi-tag"></i>&nbsp;chaleur</a>
+                    </section>
+
+                    <section id="body" style="word-wrap: break-word">
+                        <h4><strong>Le nouveau ministre chargé de l'Industrie et de l’Énergie, Marc Ferracci, a bouclé plusieurs visites de projets de géothermie sur le territoire français...</strong></h4>
+                        <figure class="mt-2 mb-5 position-relative">
+                            <img src="https://www.construction21.org/france/data/sources/users/20589/20250103111041-img3842.webp" onerror="this.onerror=null;this.style.visibility='hidden';" class="w-100" loading="lazy" alt="Géothermie : la France affiche son potentiel">
+                        </figure>
+
+                        <p class="blockquote-reverse mb-3 blockquote-footer">Panneau de signalisation pour le déploiement de géothermie en Ile-de-France. Construction21</p>
+
+                        <p>Produire plus de chaleur renouvelable à partir de l'énergie souterraine...</p>
+
+                        <p><strong>Lire aussi : <a href="https://www.construction21.org/france/articles/h/un-reseau-de-chaleur-des-yvelines-verdi-a-coups-de-geothermie.html" target="_blank">Un réseau de chaleur des Yvelines verdi à coups de géothermie</a></strong></p>
+                    </section>
+
+                    <section class="my-5 clearfix">
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <strong class="fw-bold">Partager : </strong>
+                            <ul class="d-flex list-unstyled">
+                                <li><a href="#" class="me-2"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="#" class="me-2"><i class="bi bi-twitter"></i></a></li>
+                                <li><a href="#" class="me-2"><i class="bi bi-linkedin"></i></a></li>
+                                <li><a href="#" class="me-2"><i class="bi bi-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </article>
+        </div>
+
+        <div class="order-2 col-sm-12 col-lg-4">
+            <section class="pt-4 px-3 border mb-5 rounded border-lightgray bg-white">
+                <h2 class="h5 text-center"><i class="bi bi-eye-fill me-2"></i> Autres articles</h2>
+                <div class="px-1">
+                    <a href="https://www.construction21.org/france/articles/h/geothermie-la-france-affiche-son-potentiel.html">
+                        <article class="media border p-2 rounded mb-3">
+                            <h3 class="h6 mt-2 mb-1">Géothermie : la France affiche son potentiel</h3>
+                            <span class="my-2 fs-6">03/01/2025</span>
+                        </article>
+                    </a>
+                    <!-- Other articles here -->
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

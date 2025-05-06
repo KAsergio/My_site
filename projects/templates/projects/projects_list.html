@@ -1,0 +1,68 @@
+{% extends 'template_base.html' %}
+
+{% block page_title %}Mes Projets{% endblock %}
+{% block page_title2 %}Découvrez Mes Projets{% endblock %}
+{% block page_description %}Un aperçu de mes réalisations dans le domaine de l'énergétique, la data science et le développement web{% endblock %}
+
+{% block contain %}
+<section class="container content-padding-top">
+    <!-- Filtres de catégories -->
+    {% if categories %}
+    <div class="filter-section mb-4" data-aos="fade-up">
+        <h2>Catégories</h2>
+        <div class="filter-buttons">
+            <a href="{% url 'projects:projects' %}" class="btn {% if not current_category %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                Tous
+            </a>
+            {% for cat in categories %}
+                <a href="{% url 'projects:projects' %}?category={{ cat }}" class="btn {% if current_category == cat %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                    {{ cat }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Liste des projets -->
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:50 }}">
+            <div class="card">
+                <a href="{% url 'projects:project' slug=project.slug %}">
+                    <div class="card-img">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    </div>
+                </a>
+                <div class="card-body">
+                    <h3 class="card-title">{{ project.title }}</h3>
+                    <div class="project-category mb-2">
+                        <span class="badge bg-secondary">{{ project.category }}</span>
+                        <span class="badge {% if project.status == 'completed' %}bg-success{% elif project.status == 'in_progress' %}bg-warning{% else %}bg-info{% endif %}">
+                            {{ project.get_status_display }}
+                        </span>
+                    </div>
+                    <p class="card-text">{{ project.description|truncatechars:120 }}</p>
+                    <div class="technologies mt-2">
+                        <small class="text-muted">{{ project.technologies }}</small>
+                    </div>
+                </div>
+                <div class="card-author-date">
+                    <div class="card-date">
+                        <small class="text-muted">{{ project.date_created|date:"d/m/Y" }}</small>
+                    </div>
+                    <div>
+                        <a href="{% url 'projects:project' slug=project.slug %}" class="btn btn-sm btn-outline">
+                            Voir le projet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p>Aucun projet n'a été trouvé.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

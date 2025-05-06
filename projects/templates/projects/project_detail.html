@@ -1,0 +1,102 @@
+{% extends 'template_base.html' %}
+
+{% block page_title %}{{ project.title }}{% endblock %}
+{% block page_title2 %}{{ project.title }}{% endblock %}
+{% block page_description %}{{ project.description|truncatechars:150 }}{% endblock %}
+
+{% block contain %}
+<section class="container content-padding-top">
+    <div class="row">
+        <!-- Contenu principal du projet -->
+        <div class="col-lg-8" data-aos="fade-up">
+            <!-- Image principale -->
+            <div class="project-image mb-4">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid rounded">
+            </div>
+            
+            <!-- Métadonnées du projet -->
+            <div class="project-meta mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="meta-item">
+                            <h5>Catégorie</h5>
+                            <p><span class="badge bg-secondary">{{ project.category }}</span></p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Statut</h5>
+                            <p>
+                                <span class="badge {% if project.status == 'completed' %}bg-success{% elif project.status == 'in_progress' %}bg-warning{% else %}bg-info{% endif %}">
+                                    {{ project.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="meta-item">
+                            <h5>Technologies</h5>
+                            <p>{{ project.technologies }}</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Date de création</h5>
+                            <p>{{ project.date_created|date:"d F Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Liens du projet -->
+            <div class="project-links mb-4">
+                {% if project.github_link %}
+                <a href="{{ project.github_link }}" target="_blank" class="btn btn-outline me-2">
+                    <i class="fab fa-github me-2"></i>GitHub
+                </a>
+                {% endif %}
+                
+                {% if project.live_link %}
+                <a href="{{ project.live_link }}" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt me-2"></i>Voir en direct
+                </a>
+                {% endif %}
+            </div>
+            
+            <!-- Contenu du projet -->
+            <div class="project-content">
+                <h2>Description du projet</h2>
+                <div class="content my-services">
+                    {{ project.content|safe }}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barre latérale -->
+        <div class="col-lg-4" data-aos="fade-left">
+            <!-- Projets similaires -->
+            <div class="similar-projects">
+                <h3>Projets similaires</h3>
+                {% for similar in similar_projects %}
+                <div class="card mb-3">
+                    <a href="{% url 'projects:project' slug=similar.slug %}">
+                        <div class="card-img">
+                            <img src="{{ similar.image.url }}" alt="{{ similar.title }}">
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title h5">{{ similar.title }}</h4>
+                        <p class="card-text small">{{ similar.description|truncatechars:80 }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Aucun projet similaire trouvé.</p>
+                {% endfor %}
+            </div>
+            
+            <!-- Retour à la liste des projets -->
+            <div class="text-center mt-4">
+                <a href="{% url 'projects:projects' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Tous les projets
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

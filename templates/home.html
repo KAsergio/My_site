@@ -1,0 +1,205 @@
+{% extends 'template_base.html' %}
+{% load static %}
+
+{% block page_title %}Accueil{% endblock %}
+
+{% block page_title2 %}Bienvenue sur mon Portfolio{% endblock %}
+{% block page_description %}Découvrez mes projets, articles et mon parcours en énergétique, data science et développement web.{% endblock %}
+
+{% block contain %}
+<section class="container" id="home-page">
+    <div class="hero-section mt-4">
+        <div class="hero-content col-lg-6">
+            <p class="hero-intro" data-aos="fade-up">Bonjour, je m'appelle</p>
+            
+            <div class="animated-text" data-aos="fade-up" data-aos-delay="100">
+                    <h1>Sergio ASSOGBA</h1>
+                    <p>Ingénieur en énergétique, passioné de la data et du développement Web avec Python</p>
+                </div>
+                
+            <div data-aos="fade-up" data-aos-delay="200">
+                <ul class="social-icons">
+                    <li><a href="https://www.linkedin.com/in/sergio-assogba-8bb375182/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a></li>   
+                    <li><a href="https://github.com/KAsergio" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
+                    <li><a href="https://www.instagram.com/sergio.ayr" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="300">
+                <a href="{% url 'cursus' %}" class="btn btn-primary">Découvrir mon parcours</a>
+            </div>
+
+            <div class="my-services" data-aos="fade-up" data-aos-delay="400">
+                    <h1>Expertises</h1>
+                    <div class="text-container">
+                        <span id="text"></span>
+                    </div>
+            </div>
+                </div>
+
+        <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+            <div class="presentation-photo">
+                <img src="/media/1683705434359.jpeg" alt="Sergio ASSOGBA">
+            </div>
+        </div>
+            </div>
+    
+    <!-- Section Projets récents (preview) -->
+    <section class="recent-projects" data-aos="fade-up">
+        <h2>Projets récents</h2>
+        <div class="row">
+            {% for project in featured_projects %}
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ project.title }}</h3>
+                        <div class="project-category mb-2">
+                            <span class="badge bg-secondary">{{ project.category }}</span>
+                        </div>
+                        <p class="card-text">{{ project.description|truncatechars:100 }}</p>
+                        <a href="{% url 'projects:project' slug=project.slug %}" class="btn btn-outline">Voir le projet</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Fallback si aucun projet n'est mis en avant -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="/media/placeholder-project.jpg" alt="Projet" onerror="this.src='https://via.placeholder.com/350x200?text=Projet'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Analyse énergétique</h3>
+                        <p class="card-text">Optimisation des performances énergétiques d'un bâtiment résidentiel.</p>
+                        <a href="{% url 'projects:projects' %}" class="btn btn-outline">Voir les projets</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="/media/placeholder-project.jpg" alt="Projet" onerror="this.src='https://via.placeholder.com/350x200?text=Projet'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Dashboard de données</h3>
+                        <p class="card-text">Visualisation interactive pour l'analyse de données climatiques.</p>
+                        <a href="{% url 'projects:projects' %}" class="btn btn-outline">Voir les projets</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="/media/placeholder-project.jpg" alt="Projet" onerror="this.src='https://via.placeholder.com/350x200?text=Projet'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Application Web Django</h3>
+                        <p class="card-text">Plateforme de gestion et de suivi de projets énergétiques.</p>
+                        <a href="{% url 'projects:projects' %}" class="btn btn-outline">Voir les projets</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{% url 'projects:projects' %}" class="btn btn-secondary">Voir tous les projets</a>
+        </div>
+    </section>
+</section>
+
+<style>
+  #chatbot {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  #chatbot-icon {
+    font-size: 30px;
+    color: white;
+  }
+
+  #chatbot-dialog {
+    display: none;
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  #chatbot-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+
+  #chatbot-messages {
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  #chatbot-input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: none;
+    border-top: 1px solid #ddd;
+  }
+
+  #chatbot-send {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+
+<div id="chatbot">
+  <i id="chatbot-icon" class="fas fa-robot"></i>
+</div>
+
+<div id="chatbot-dialog">
+  <div id="chatbot-header">Chatbot</div>
+  <div id="chatbot-messages"></div>
+  <input type="text" id="chatbot-input" placeholder="Posez votre question...">
+  <button id="chatbot-send">Envoyer</button>
+</div>
+
+<script>
+  document.getElementById('chatbot').addEventListener('click', function() {
+    const dialog = document.getElementById('chatbot-dialog');
+    dialog.style.display = dialog.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.getElementById('chatbot-send').addEventListener('click', function() {
+    const input = document.getElementById('chatbot-input').value;
+    // Envoyer la requête au backend
+    // Afficher la réponse dans 'chatbot-messages'
+  });
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Scripts spécifiques à la page d'accueil si nécessaire
+</script>
+{% endblock %}

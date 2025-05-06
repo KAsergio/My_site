@@ -1,0 +1,73 @@
+{% extends 'template_base.html' %}
+
+{% block page_title %}{{ project.title }} - Projet Opensource{% endblock %}
+{% block page_title2 %}Projet Opensource{% endblock %}
+{% block page_description %}Participez à ce projet open source ! Votre contribution peut faire la différence. Rejoignez la communauté et aidez-nous à innover ensemble.{% endblock %}
+
+{% block contain %}
+<section class="container content-padding-top">
+    <div class="row">
+        <!-- Image du projet -->
+        <div class="col-lg-6 mb-4" data-aos="fade-right">
+            <div class="project-image">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid rounded">
+            </div>
+        </div>
+
+        <!-- Informations du projet -->
+        <div class="col-lg-6" data-aos="fade-left">
+            <div class="project-info">
+                <h1 class="mb-4">{{ project.title }}</h1>
+                
+                <!-- Statut et catégorie -->
+                <div class="mb-4">
+                    <span class="badge bg-secondary me-2">{{ project.get_category_display }}</span>
+                    <span class="badge {% if project.status == 'completed' %}bg-success{% elif project.status == 'in_progress' %}bg-warning{% else %}bg-info{% endif %}">
+                        {{ project.get_status_display }}
+                    </span>
+                </div>
+
+                <!-- Description -->
+                <div class="project-description mb-4">
+                    <h3>Description</h3>
+                    <p>{{ project.description }}</p>
+                </div>
+
+                <!-- Technologies -->
+                <div class="project-technologies mb-4">
+                    <h3>Technologies utilisées</h3>
+                    <div class="technologies-list">
+                        {% for tech in project.technologies.all %}
+                            <span class="badge bg-light text-dark me-2 mb-2">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Liens -->
+                <div class="project-links">
+                    {% if project.github_link %}
+                    <a href="{{ project.github_link }}" target="_blank" class="btn btn-primary me-2">
+                        <i class="fab fa-github me-2"></i>Voir sur GitHub
+                    </a>
+                    {% endif %}
+                    {% if project.drive_link %}
+                    <a href="{{ project.drive_link }}" target="_blank" class="btn btn-outline me-2">
+                        <i class="fas fa-folder-open me-2"></i>Accéder aux documents
+                    </a>
+                    {% endif %}
+                    {% if not project.github_link and not project.drive_link %}
+                    <a href="{% url 'contact' %}" class="btn btn-outline">
+                        <i class="fas fa-envelope me-2"></i>Me contacter
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- Date de création -->
+                <div class="project-date mt-4">
+                    <small class="text-muted">Créé le {{ project.date_created|date:"d/m/Y" }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

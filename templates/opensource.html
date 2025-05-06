@@ -1,0 +1,84 @@
+{% extends 'template_base.html' %}
+
+{% block page_title %}Projets Opensource{% endblock %}
+{% block page_title2 %}Projets Opensource{% endblock %}
+{% block page_description %}Découvrez et participez à mes projets open source dans le domaine de l'énergétique, la data science et le développement web. Rejoignez la communauté et contribuez à l'innovation !{% endblock %}
+
+{% block contain %}
+<section class="container content-padding-top">
+    <!-- Filtres de catégories -->
+    {% if categories %}
+    <div class="filter-section mb-4" data-aos="fade-up">
+        <h2>Catégories</h2>
+        <div class="filter-buttons">
+            <a href="{% url 'opensource_list' %}" class="btn {% if not current_category %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                Tous
+            </a>
+            {% for cat in categories %}
+                <a href="{% url 'opensource_list' %}?category={{ cat }}" class="btn {% if current_category == cat %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                    {{ cat }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Liste des projets -->
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:50 }}">
+            <div class="card">
+                <a href="{% url 'opensource_detail' project.pk %}">
+                    <div class="card-img">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    </div>
+                </a>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a href="{% url 'opensource_detail' project.pk %}" class="text-decoration-none">{{ project.title }}</a>
+                    </h3>
+                    <div class="project-category mb-2">
+                        <span class="badge bg-secondary">{{ project.get_category_display }}</span>
+                        <span class="badge {% if project.status == 'completed' %}bg-success{% elif project.status == 'in_progress' %}bg-warning{% else %}bg-info{% endif %}">
+                            {{ project.get_status_display }}
+                        </span>
+                    </div>
+                    <p class="card-text">{{ project.description|truncatechars:120 }}</p>
+                    <div class="technologies mt-2">
+                        {% for tech in project.technologies.all %}
+                            <span class="badge bg-light text-dark me-1 mb-1">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-author-date">
+                    <div class="card-date">
+                        <small class="text-muted">{{ project.date_created|date:"d/m/Y" }}</small>
+                    </div>
+                    <div>
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-outline me-2">
+                            <i class="fab fa-github me-2"></i>GitHub
+                        </a>
+                        {% endif %}
+                        {% if project.drive_link %}
+                        <a href="{{ project.drive_link }}" target="_blank" class="btn btn-sm btn-outline me-2">
+                            <i class="fas fa-folder-open me-2"></i>Drive
+                        </a>
+                        {% endif %}
+                        {% if not project.github_link and not project.drive_link %}
+                        <a href="{% url 'contact' %}" class="btn btn-sm btn-outline">
+                            <i class="fas fa-envelope me-2"></i>Me contacter
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p>Aucun projet open source n'a été trouvé.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %} 

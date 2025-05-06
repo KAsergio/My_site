@@ -1,0 +1,27 @@
+{% extends 'template_base.html' %}
+
+{% block page_title %} Opensource {% endblock %}
+{% block page_title2 %} Projets Collaboratifs {% endblock %}
+
+{% block contain%}
+
+<h1>Projets Open Source</h1>
+<div class="project-list">
+  {% for project in projects %}
+  <div class="card">
+    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-img-top">
+    <div class="card-body">
+      <h3 class="card-title">{{ project.title }}</h3>
+      <p class="card-text">{{ project.description }}</p>
+      {% if project.github_link %}
+      <a href="{{ project.github_link }}" target="_blank" class="btn btn-primary">Voir sur GitHub</a>
+      {% endif %}
+      {% if project.drive_link %}
+      <a href="{{ project.drive_link }}" target="_blank" class="btn btn-secondary">Accéder au Drive</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %} 
