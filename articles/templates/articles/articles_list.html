@@ -1,89 +1,69 @@
 {%  extends 'template_base.html' %}
 
 {% block page_title %}Publications{% endblock%}
-{% block page_title2 %} Mes publications {% endblock %}
-{% block page_description %} Ici vous trouverez mes publications  {% endblock %}
+{% block page_title2 %}Mes publications{% endblock %}
+{% block page_description %}Retrouvez ici mes articles, analyses et retours d'expérience sur l'innovation, la data science, l'énergie et le développement web.{% endblock %}
 
 {% block contain %}
-
-<!--<div class="container">-->
-
-<div class="container">
+<section class="container content-padding-top">
+    {% if categories %}
+    <div class="filter-section mb-4" data-aos="fade-up">
+        <h2>Catégories</h2>
+        <div class="filter-buttons">
+            <a href="{% url 'articles:articles' %}" class="btn {% if not current_category %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                Tous
+            </a>
+            {% for cat in categories %}
+                <a href="{% url 'articles:articles' %}?category={{ cat }}" class="btn {% if current_category == cat %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                    {{ cat }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
-{% for article in articles %}
-        <div class = "col-lg-4 col-md-6 col-sm-12">
-
+        {% for article in articles %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:50 }}">
             <div class="card">
                 <a href="{% url 'articles:article' slug=article.slug %}">
                     <div class="card-img">
-                        <img src="{{ article.image.url}}" alt="{{ project.title }}">
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}">
                     </div>
                 </a>
                 <div class="card-body">
                     <h1 class="card-title">{{ article.title }}</h1>
                     <hr>
-                    <p class="card-text">{{ article.contain }}</p>
-                </div>
-                <div class="card-author-date">
-                    
-                    <div class="card-author">
-                        <img src="/media/1683705434359.jpeg" alt="author-img" width="50px" height="50px" class="card-author">
-                        <div class="author-name">
-                            <p class="author-name">Sergio <br> ASSOGBA</p>
+                    <p class="card-text">{{ article.contain|truncatechars:250 }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="d-flex align-items-center">
+                            <img src="/media/1683705434359.jpeg" alt="author-img" width="32" height="32" class="rounded-circle me-2">
+                            <span class="author-name">Sergio ASSOGBA</span>
+                            <span class="article-date ms-3">{{ article.publication_date|date:"d/m/Y" }}</span>
                         </div>
-                        
                     </div>
-        
-                    <div class="card-date-like">
-        
-                        <div class="card-date">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
-                            </svg>
-                            <span>{{article.publication_date}}</span>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <a href="{% url 'articles:article' slug=article.slug %}" class="btn btn-outline">
+                            Lire l'article
+                        </a>
+                        <div class="d-flex align-items-center">
+                            <div class="views-count d-flex align-items-center me-3">
+                                <i class="fas fa-eye me-1"></i>
+                                <span>{{ article.views_count }}</span>
+                            </div>
+                            <div class="comments-count d-flex align-items-center">
+                                <i class="fas fa-comment me-1"></i>
+                                <span>{{ article.comments.count }}</span>
+                            </div>
                         </div>
-        
-                        <div class="like-comment-icons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                            </svg>
-                            <span class="number">12</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
-                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-                            </svg>
-                            <span class="number">8</span>
-                        </div>
-            
                     </div>
                 </div>
             </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Sélectionnez l'élément avec la classe "card-text"
-                    var cardText = document.querySelector('.card-text');
-            
-                    // Vérifiez si l'élément existe
-                    if (cardText) {
-                        // Limitez le texte à 100 caractères
-                        var trimmedText = cardText.innerText.substring(0, 100);
-            
-                        // Ajoutez des points de suspension si le texte est tronqué
-                        if (cardText.innerText.length > 100) {
-                            trimmedText += '...';
-                        }
-            
-                        // Remplacez le texte original par le texte tronqué
-                        cardText.innerText = trimmedText;
-                    }
-                });
-            </script>
-
         </div>
-{% endfor %} 
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p>Aucun article n'a été publié pour le moment.</p>
+        </div>
+        {% endfor %}
     </div>
-</div>
-<!--</div>-->
-
+</section>
 {% endblock %}

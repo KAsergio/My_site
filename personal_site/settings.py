@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from django.db import connection
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'core',
     'articles',
     'projects',
     'collaborative_projects',
@@ -148,3 +150,9 @@ EMAIL_HOST_USER = 'contact@sergioassogba.com'  # Votre adresse e-mail
 EMAIL_HOST_PASSWORD = '2024fiN@'  # Votre mot de passe
 EMAIL_USE_TLS = True  # Activer TLS si pris en charge
 EMAIL_USE_SSL = False  # Assurez-vous que l'un des deux (TLS ou SSL) est activé, pas les deux
+
+with connection.cursor() as cursor:
+    cursor.execute("""
+        DELETE FROM articles_article_categories
+        WHERE category_id NOT IN (SELECT id FROM core_category)
+    """)

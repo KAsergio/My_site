@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import OpenSourceProject
+from core.models import Category
 
 # Create your views here.
 
@@ -12,10 +13,10 @@ def opensource_list_view(request):
     
     # Filtrer par catégorie si une catégorie est sélectionnée
     if current_category:
-        projects = projects.filter(category=current_category)
+        projects = projects.filter(categories__id=current_category)
     
-    # Récupérer toutes les catégories uniques
-    categories = OpenSourceProject.objects.values_list('category', flat=True).distinct()
+    # Récupérer toutes les catégories
+    categories = Category.objects.all()
     
     context = {
         'projects': projects,
@@ -27,7 +28,5 @@ def opensource_list_view(request):
 
 def opensource_detail_view(request, pk):
     project = get_object_or_404(OpenSourceProject, pk=pk)
-    context = {
-        'project': project,
-    }
-    return render(request, 'opensource_detail.html', context)
+    project.increment_views()  # Incrémente le compteur de vues
+    return render(request, 'opensource_detail.html', {'project': project})

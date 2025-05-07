@@ -1,110 +1,109 @@
 {% extends 'template_base.html' %}
-{% block page_title %}Publications{% endblock %}
-
-{% block page_title2 %}
-    <h1>{{ article.title }}</h1>
-    <p>Découvrez cet article et partagez vos commentaires pour enrichir la discussion.</p>
-{% endblock %}
+{% block page_title %}{{ article.title }}{% endblock %}
+{% block page_title2 %}{{ article.title }}{% endblock %}
+{% block page_description %}{{ article.contain|truncatechars:150 }}{% endblock %}
 
 {% block contain %}
-<div class="article-container" style="padding: 20px; margin-top: 200px;">
-    <div class="article-header">
-        <!-- Image principale de l'article -->
-        <img src="{{ article.image.url}}" alt="{{ article.title }}" class="article-image" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 20px;">
-    </div>
-
-    <div class="article-details" style="margin-top: 20px;">
-        <div class="article-title" style="font-size: 1.8rem; font-weight: bold;">{{ article.title }}</div>
-        <div class="article-meta" style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center;">
-                <!-- Auteur -->
-                <div class="card-author" style="display: flex; align-items: center; margin-right: 15px;">
-                    <img src="/media/1683705434359.jpeg" alt="author-img" width="50px" height="50px" style="border-radius: 50%; margin-right: 10px;">
-                    <p style="margin: 0; font-size: 1rem;">Sergio ASSOGBA</p>
-                </div>
-
-                <!-- Date de publication -->
-                <div class="card-date" style="display: flex; align-items: center;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
-                    </svg>
-                    <span style="margin-left: 5px;">{{ article.publication_date }}</span>
+<section class="container content-padding-top">
+    <div class="row">
+        <!-- Colonne principale (gauche) -->
+        <div class="col-lg-8" data-aos="fade-up">
+            <!-- Image principale -->
+            <div class="project-image mb-4">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid rounded">
+            </div>
+            <!-- Métadonnées -->
+            <div class="project-meta mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="meta-item d-flex align-items-center mb-2">
+                            <img src="/media/1683705434359.jpeg" alt="author-img" width="32" height="32" class="rounded-circle me-2">
+                            <span class="author-name">Sergio ASSOGBA</span>
+                        </div>
+                        <div class="meta-item mb-2">
+                            <i class="bi bi-clock me-1"></i>
+                            <span>{{ article.publication_date|date:"d/m/Y" }}</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="views-count d-flex align-items-center me-3">
+                                <i class="fas fa-eye me-1"></i>
+                                <span>{{ article.views_count }}</span>
+                            </div>
+                            <div class="comments-count d-flex align-items-center">
+                                <i class="fas fa-comment me-1"></i>
+                                <span>{{ article.comments.count }}</span>
+                            </div>
+                        </div>
+                        <div class="meta-item mb-2">
+                            <i class="bi bi-hand-thumbs-up me-1"></i>
+                            <span>{{ article.likes_count }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="meta-item mb-2">
+                            <h5>Mots-clés</h5>
+                            <div>
+                                {% for keyword in article.keywords.all %}
+                                    <span class="badge bg-light text-dark me-2 mb-2">{{ keyword.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div style="display: flex; align-items: center;">
-                <!-- Nombre de vues -->
-                <div class="views" style="margin-right: 15px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM8 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
-                        <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
-                    </svg>
-                    <span style="margin-left: 5px;">{{ article.views_count }}</span>
+            <!-- Description -->
+            <div class="project-content mb-4">
+                <h2>Description de l'article</h2>
+                <div class="content my-services">
+                    {{ article.contain }}
                 </div>
-
-                <!-- Bouton Like -->
-                <form method="post" action="/like_article/{{ article.id }}/" style="margin: 0;">
+            </div>
+        </div>
+        <!-- Colonne latérale (droite) -->
+        <div class="col-lg-4" data-aos="fade-left">
+            <!-- Section commentaires -->
+            <div class="article-comments mb-5">
+                <h2>Commentaires</h2>
+                <form method="post" action="{% url 'articles:article' slug=article.slug %}">
                     {% csrf_token %}
-                    <button type="submit" style="background: none; border: none; cursor: pointer;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
-                            <path d="M6.956 1.745C7.021 1.538 7.25 1.5 7.5 1.5h4a2.5 2.5 0 0 1 2.5 2.5c0 .16-.023.317-.067.47l-1.658 5.516a1.5 1.5 0 0 1-1.362 1.012H8.497l.276 1.106c.03.11.031.226.003.34l-.458 1.833A1.5 1.5 0 0 1 6.819 16H3.5a1.5 1.5 0 0 1-1.493-1.356L1.5 10.5v-7A1.5 1.5 0 0 1 3 2h3.21a1.5 1.5 0 0 1 .746-.255z"/>
-                        </svg>
-                        <span>{{ article.likes_count }}</span>
-                    </button>
+                    <input type="text" name="author" class="form-control mb-2" placeholder="Votre nom">
+                    <input type="text" name="contact" class="form-control mb-2" placeholder="Votre contact (email ou téléphone)">
+                    <textarea name="comment" rows="4" class="form-control mb-2" placeholder="Ajoutez votre commentaire..." required></textarea>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
                 </form>
+                <div class="existing-comments mt-4">
+                    {% for comment in comments %}
+                    <div class="comment border-bottom py-2">
+                        <p class="mb-1"><strong>{{ comment.author }}</strong> le {{ comment.date_posted }}</p>
+                        <p class="mb-0">{{ comment.content }}</p>
+                    </div>
+                    {% empty %}
+                    <p>Aucun commentaire pour le moment.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Articles similaires -->
+            <div class="related-articles">
+                <h2>Articles similaires</h2>
+                <div class="row">
+                    {% for related_article in related_articles %}
+                    <div class="col-12 mb-3">
+                        <div class="card h-100">
+                            <a href="{{ related_article.get_absolute_url }}">
+                                <div class="card-img">
+                                    <img src="{{ related_article.image.url }}" alt="{{ related_article.title }}" class="img-fluid">
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <h4 class="card-title h5">{{ related_article.title }}</h4>
+                                <p class="card-text small">{{ related_article.contain|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="article-content" style="margin-top: 20px; font-size: 1rem; line-height: 1.6;">
-        <p>{{ article.contain }}</p>
-    </div>
-
-    <div class="article-keywords" style="margin-top: 20px;">
-        <h3>Mots-clés :</h3>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            {% for keyword in article.keywords.all %}
-            <span style="background-color: #f0f0f0; padding: 5px 10px; border-radius: 15px; font-size: 0.9rem;">{{ keyword.name }}</span>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="article-comments" style="margin-top: 40px;">
-        <h2>Commentaires</h2>
-        <form method="post" action="{% url 'articles:article' slug=article.slug %}">
-            {% csrf_token %}
-            <textarea name="comment" rows="4" style="width: 100%; border-radius: 8px; padding: 10px;" placeholder="Ajoutez votre commentaire..."></textarea>
-            <button type="submit" style="margin-top: 10px; padding: 10px 20px; border: none; background-color: #007BFF; color: white; border-radius: 5px; cursor: pointer;">Envoyer</button>
-        </form>
-    
-        <div class="existing-comments" style="margin-top: 20px;">
-
-            {% for comment in article.comment_set.all %}
-            <div class="comment" style="border-bottom: 1px solid #ddd; padding: 10px 0;">
-                <p><strong>{{ comment.author }}</strong> le {{ comment.date_posted }}</p>
-                <p>{{ comment.content }}</p>
-            </div>
-            {% empty %}
-            <p>Aucun commentaire pour le moment.</p>
-            {% endfor %}
-
-        </div>
-    </div>
-    
-
-    <div class="related-articles" style="margin-top: 40px;">
-        <h2>Articles Similaires</h2>
-        <div class="article-list" style="display: flex; flex-wrap: wrap; gap: 15px;">
-            {% for article in related_articles %}
-            <div class="related-article" style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; width: calc(33.333% - 10px);">
-                <a href="{{ article.get_absolute_url }}" style="text-decoration: none; color: inherit;">
-                    <h3 style="font-size: 1.2rem;">{{article.title }}</h3>
-                    <p style="font-size: 0.9rem; color: #666;">{{related_article.publication_date }}</p>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
+</section>
 {% endblock %}

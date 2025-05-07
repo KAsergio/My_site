@@ -4,15 +4,25 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-from .models import Article, Comment
+from .models import Article, Comment, Category
 
 def articles_list_view(request):
+    current_category = request.GET.get('category')
     articles = Article.objects.all().order_by('-publication_date')
-    return render(request, 'articles/articles_list.html', context={'articles': articles})
+    if current_category:
+        articles = articles.filter(categories__name=current_category)
+    categories = Category.objects.values_list('name', flat=True).distinct()
+    return render(request, 'articles/articles_list.html', context={
+        'articles': articles,
+        'categories': categories,
+        'current_category': current_category,
+    })
 
 
 def article_view(request, slug):
     article = get_object_or_404(Article, slug=slug)
+    article.views_count += 1
+    article.save(update_fields=['views_count'])
 
     if request.method == "POST":
         comment_content = request.POST.get("comment")

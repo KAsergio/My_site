@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from core.models import Category
 
 
 class Project(models.Model):
@@ -10,7 +11,6 @@ class Project(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     image = models.ImageField(default='default_project.jpg', upload_to='projects/')
-    category = models.CharField(max_length=100)
     github_link = models.URLField(blank=True, null=True)
     live_link = models.URLField(blank=True, null=True)
     technologies = models.CharField(max_length=255)
@@ -20,6 +20,7 @@ class Project(models.Model):
         ('on_hold', 'En attente')
     ], default='completed')
     featured = models.BooleanField(default=False)
+    categories = models.ManyToManyField(Category, blank=True, related_name='projects')
 
     def __str__(self):
         return self.title

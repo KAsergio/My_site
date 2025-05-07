@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from core.models import Category
 
 
 class Article (models.Model):
@@ -11,6 +12,8 @@ class Article (models.Model):
     publication_date = models.DateTimeField(auto_now_add=True)
     theme = models.TextField()
     image = models.ImageField(default='default.jpg')
+    views_count = models.PositiveIntegerField(default=0)
+    categories = models.ManyToManyField(Category, blank=True, related_name='articles')
 
     def __str__(self):
         return self.title
@@ -20,6 +23,7 @@ class Article (models.Model):
 class Comment(models.Model):
     article = models.ForeignKey(Article, related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=100)
+    contact = models.CharField(max_length=150, blank=True)
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
 

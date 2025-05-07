@@ -19,8 +19,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="meta-item">
-                            <h5>Catégorie</h5>
-                            <p><span class="badge bg-secondary">{{ project.category }}</span></p>
+                            <h5>Catégories</h5>
+                            <p>
+                                {% for category in project.categories.all %}
+                                    <span class="badge bg-secondary me-1">{{ category.name }}</span>
+                                {% endfor %}
+                            </p>
                         </div>
                         <div class="meta-item">
                             <h5>Statut</h5>

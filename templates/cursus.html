@@ -1,40 +1,174 @@
 {% extends 'template_base.html' %}
+{% load static %}
 
-{% block page_title %} Contact {% endblock %}
-{% block page_title2 %}
-<h1>Avez-vous un projet ?</h1>
-<p>Prenez contact et faites-moi savoir comment je peux vous aider. Remplissez le formulaire et je vous contacterai dès que possible.</p>
-
-{% endblock %}
+{% block page_title %}Mon Parcours{% endblock %}
+{% block page_title2 %}Cursus & Expériences{% endblock %}
+{% block page_description %}Découvrez mon parcours académique, professionnel et mes certifications dans l'ingénierie énergétique, la data et l'innovation.{% endblock %}
 
 {% block contain %}
-
-<div class="container">
-<h1>Mon CV</h1>
-
-    <div>
-        <h1 class="mb-6">Mon expérience</h1>
-
-        <div class="expérience-formation">
-            <div>
-                <div>
-
-                </div>
-                <div>
-                    <ul>
-                        
-                    </ul>
-                </div>
-
+<section class="container content-padding-top">
+    <h1 class="mb-4">Expérience professionnelle</h1>
+    <div class="timeline">
+        <!-- CSFE -->
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/csfe.png' %}" alt="CSFE" width="40"></div>
+            <div class="timeline-content">
+                <h3>Ingénieur RSE & Bardage <span class="badge bg-primary">CDI</span></h3>
+                <span class="text-muted">CSFE (Chambre Syndicale Française de l'Étanchéité) – Paris<br>mars 2024 – aujourd'hui</span>
+                <ul>
+                    <li>Préparation et animation de groupes de travail et commissions</li>
+                    <li>Développement Outil Carbone, réemploi des matériaux, REP, santé publique (moustiques tigres)</li>
+                    <li>Suivi de projets, prévention, actualisation des index BT 49 et 53</li>
+                </ul>
             </div>
-            <div>
-
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/csfe.png' %}" alt="CSFE" width="40"></div>
+            <div class="timeline-content">
+                <h3>Apprenti ingénieur <span class="badge bg-secondary">Alternance</span></h3>
+                <span class="text-muted">CSFE – Paris<br>oct. 2021 – fév. 2024</span>
+                <ul>
+                    <li>Impact RE2020, Outil Carbone, réemploi matériaux, REP, santé publique</li>
+                    <li>Élaboration fiche APRI, prévention silice, suivi projets risques professionnels</li>
+                </ul>
             </div>
-
+        </div>
+        <!-- IB ENERGIES -->
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/ibenergies.png' %}" alt="IB ENERGIES" width="40"></div>
+            <div class="timeline-content">
+                <h3>Apprenti Chargé d'affaires BTP – Chef de projet</h3>
+                <span class="text-muted">IB ENERGIES – Sartrouville<br>nov. 2020 – sept. 2021</span>
+                <ul>
+                    <li>Gestion de projets (planning, budgets), modélisation 3D sur Revit</li>
+                    <li>Études thermiques, consolidation fournisseurs, gestion achats</li>
+                </ul>
+            </div>
+        </div>
+        <!-- SDEL -->
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/sdel.png' %}" alt="SDEL" width="40"></div>
+            <div class="timeline-content">
+                <h3>Assistant Chargé d'affaires Électricité</h3>
+                <span class="text-muted">SDEL Transport en Commun – Villejuif<br>juin 2020 – août 2020</span>
+                <ul>
+                    <li>Installation réseaux de distribution électrique, tirage de câbles</li>
+                </ul>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/sdel.png' %}" alt="SDEL" width="40"></div>
+            <div class="timeline-content">
+                <h3>Stagiaire ouvrier Électricien</h3>
+                <span class="text-muted">SDEL Transport en Commun – Villejuif<br>juil. 2019 – août 2019</span>
+            </div>
         </div>
     </div>
 
-</div>
-        
+    <h1 class="mb-4 mt-5">Formation</h1>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/cnam.png' %}" alt="CNAM" width="40"></div>
+            <div class="timeline-content">
+                <h3>Diplôme d'ingénieur, Énergétique</h3>
+                <span class="text-muted">Conservatoire National des Arts et Métiers<br>juil. 2024</span>
+                <div><strong>Compétences :</strong> Simulation thermique dynamique, génie énergétique, analyse de données énergétiques…</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/ensi.png' %}" alt="ENSIATE" width="40"></div>
+            <div class="timeline-content">
+                <h3>Diplôme d'ingénieur, Eco-énergétique</h3>
+                <span class="text-muted">ENSIATE<br>nov. 2018 – sept. 2023</span>
+                <div><strong>Compétences :</strong> Analyse du cycle de vie, efficacité énergétique, modélisation, énergies renouvelables…</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/cnam.png' %}" alt="CNAM" width="40"></div>
+            <div class="timeline-content">
+                <h3>Licence Sciences pour Ingénieur, Énergies et développement durable</h3>
+                <span class="text-muted">CNAM<br>sept. 2020 – juil. 2021</span>
+                <div><strong>Compétences :</strong> Énergie</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/cnam.png' %}" alt="CNAM" width="40"></div>
+            <div class="timeline-content">
+                <h3>DUT Génie Mécanique et Productique</h3>
+                <span class="text-muted">CNAM<br>2019 – 2020</span>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/militaire.png' %}" alt="Militaire" width="40"></div>
+            <div class="timeline-content">
+                <h3>Formation Élémentaire Troupe Toutes Armes (FETTA)</h3>
+                <span class="text-muted">Centre National d'Instruction-Militaire – TOGO<br>2017</span>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-icon"><img src="{% static 'img/militaire.png' %}" alt="Militaire" width="40"></div>
+            <div class="timeline-content">
+                <h3>Baccalauréat, Mathématiques-Physiques</h3>
+                <span class="text-muted">Collège Militaire Eyadema – TOGO<br>2014 – 2017</span>
+            </div>
+        </div>
+    </div>
 
+    <h1 class="mb-4 mt-5">Certifications</h1>
+    <div class="row">
+        <div class="col-md-4 mb-3" style="min-height: 180px;">
+            <div class="card h-100">
+                <div class="card-body">
+                    <img src="{% static 'img/ibm.png' %}" alt="IBM" width="40" class="mb-2">
+                    <h5 class="card-title">IBM Certified : Data Fundamentals</h5>
+                    <div class="text-muted">mars 2025</div>
+                    <a href="#" class="btn btn-outline-primary btn-sm mt-2">Afficher l'identifiant</a>
+                </div>
+            </div>
+        </div>
+        <!-- Ajoute les autres certifications sur le même modèle -->
+    </div>
+</section>
+
+<style>
+/* Timeline verticale */
+.timeline {
+    position: relative;
+    margin-left: 20px;
+    margin-bottom: 40px;
+}
+.timeline:before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #007bff;
+}
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 50px;
+}
+.timeline-icon {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    background: #fff;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.timeline-content {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+</style>
 {% endblock %}

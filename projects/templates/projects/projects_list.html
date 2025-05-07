@@ -15,8 +15,8 @@
                 Tous
             </a>
             {% for cat in categories %}
-                <a href="{% url 'projects:projects' %}?category={{ cat }}" class="btn {% if current_category == cat %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
-                    {{ cat }}
+                <a href="{% url 'projects:projects' %}?category={{ cat.id }}" class="btn {% if current_category == cat.id|stringformat:'i' %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                    {{ cat.name }}
                 </a>
             {% endfor %}
         </div>
@@ -36,7 +36,9 @@
                 <div class="card-body">
                     <h3 class="card-title">{{ project.title }}</h3>
                     <div class="project-category mb-2">
-                        <span class="badge bg-secondary">{{ project.category }}</span>
+                        {% for category in project.categories.all %}
+                            <span class="badge bg-secondary me-1">{{ category.name }}</span>
+                        {% endfor %}
                         <span class="badge {% if project.status == 'completed' %}bg-success{% elif project.status == 'in_progress' %}bg-warning{% else %}bg-info{% endif %}">
                             {{ project.get_status_display }}
                         </span>

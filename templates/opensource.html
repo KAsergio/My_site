@@ -15,8 +15,8 @@
                 Tous
             </a>
             {% for cat in categories %}
-                <a href="{% url 'opensource_list' %}?category={{ cat }}" class="btn {% if current_category == cat %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
-                    {{ cat }}
+                <a href="{% url 'opensource_list' %}?category={{ cat.id }}" class="btn {% if current_category == cat.id|stringformat:'i' %}btn-primary{% else %}btn-outline{% endif %} me-2 mb-2">
+                    {{ cat.name }}
                 </a>
             {% endfor %}
         </div>
@@ -34,42 +34,37 @@
                     </div>
                 </a>
                 <div class="card-body">
-                    <h3 class="card-title">
-                        <a href="{% url 'opensource_detail' project.pk %}" class="text-decoration-none">{{ project.title }}</a>
-                    </h3>
-                    <div class="project-category mb-2">
-                        <span class="badge bg-secondary">{{ project.get_category_display }}</span>
-                        <span class="badge {% if project.status == 'completed' %}bg-success{% elif project.status == 'in_progress' %}bg-warning{% else %}bg-info{% endif %}">
-                            {{ project.get_status_display }}
-                        </span>
-                    </div>
-                    <p class="card-text">{{ project.description|truncatechars:120 }}</p>
-                    <div class="technologies mt-2">
-                        {% for tech in project.technologies.all %}
-                            <span class="badge bg-light text-dark me-1 mb-1">{{ tech.name }}</span>
+                    <h1 class="card-title">{{ project.title }}</h1>
+                    <hr>
+                    <p class="card-text">{{ project.description|truncatechars:250 }}</p>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        {% for category in project.categories.all %}
+                            <div class="badge bg-primary">{{ category.name }}</div>
                         {% endfor %}
+                        <div class="badge bg-secondary">{{ project.get_status_display }}</div>
                     </div>
-                </div>
-                <div class="card-author-date">
-                    <div class="card-date">
-                        <small class="text-muted">{{ project.date_created|date:"d/m/Y" }}</small>
-                    </div>
-                    <div>
-                        {% if project.github_link %}
-                        <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-outline me-2">
-                            <i class="fab fa-github me-2"></i>GitHub
-                        </a>
-                        {% endif %}
-                        {% if project.drive_link %}
-                        <a href="{{ project.drive_link }}" target="_blank" class="btn btn-sm btn-outline me-2">
-                            <i class="fas fa-folder-open me-2"></i>Drive
-                        </a>
-                        {% endif %}
-                        {% if not project.github_link and not project.drive_link %}
-                        <a href="{% url 'contact' %}" class="btn btn-sm btn-outline">
-                            <i class="fas fa-envelope me-2"></i>Me contacter
-                        </a>
-                        {% endif %}
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="views-count">
+                            <i class="fas fa-eye me-1"></i>
+                            <span>{{ project.views_count }}</span>
+                        </div>
+                        <div class="project-links">
+                            {% if project.github_link %}
+                            <a href="{{ project.github_link }}" class="btn btn-sm btn-outline me-2" target="_blank">
+                                <i class="fab fa-github me-1"></i>GitHub
+                            </a>
+                            {% endif %}
+                            {% if project.drive_link %}
+                            <a href="{{ project.drive_link }}" class="btn btn-sm btn-outline me-2" target="_blank">
+                                <i class="fas fa-folder me-1"></i>Drive
+                            </a>
+                            {% endif %}
+                            {% if not project.github_link and not project.drive_link %}
+                            <a href="{% url 'contact' %}" class="btn btn-sm btn-outline">
+                                <i class="fas fa-envelope me-2"></i>Me contacter
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

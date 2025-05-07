@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from .models import Project
+from core.models import Category
 
 def projects_list_view(request):
     """Vue pour afficher la liste de tous les projets"""
@@ -10,10 +11,10 @@ def projects_list_view(request):
     # Filtrage par catégorie si spécifié dans l'URL
     category = request.GET.get('category')
     if category:
-        projects = projects.filter(category=category)
+        projects = projects.filter(categories__id=category)
     
     # Récupération de toutes les catégories pour le filtre
-    categories = Project.objects.values_list('category', flat=True).distinct()
+    categories = Category.objects.all()
     
     context = {
         'projects': projects,
@@ -28,7 +29,7 @@ def project_detail_view(request, slug):
     project = get_object_or_404(Project, slug=slug)
     
     # Projets similaires (même catégorie, excluant le projet actuel)
-    similar_projects = Project.objects.filter(category=project.category).exclude(id=project.id)[:3]
+    similar_projects = Project.objects.filter(categories__in=project.categories.all()).exclude(id=project.id).distinct()[:3]
     
     context = {
         'project': project,

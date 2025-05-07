@@ -8,16 +8,17 @@ class TechnologyAdmin(admin.ModelAdmin):
 
 @admin.register(OpenSourceProject)
 class OpenSourceProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'status', 'date_created')
-    list_filter = ('category', 'status', 'technologies')
+    list_display = ('title', 'status', 'date_created')
+    list_filter = ('status', 'technologies')
     search_fields = ('title', 'description')
     filter_horizontal = ('technologies',)
+    autocomplete_fields = ['categories']
     fieldsets = (
         ('Informations générales', {
             'fields': ('title', 'description', 'image')
         }),
         ('Catégorisation', {
-            'fields': ('category', 'status', 'technologies')
+            'fields': ('status', 'technologies', 'categories')
         }),
         ('Liens', {
             'fields': ('github_link', 'drive_link')
