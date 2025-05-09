@@ -1,0 +1,157 @@
+{% if carousel_images %}
+    <!-- Debug info 
+    {% if debug %}
+    <div class="alert alert-info">
+        Nombre d'images : {{ carousel_images|length }}
+        {% for image in carousel_images %}
+        <div>Image {{ forloop.counter }}: {{ image.title }} - {{ image.image.url }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+-->
+    <style>
+    .carousel-item {
+        height: 500px; /* Hauteur fixe pour toutes les images */
+        background-color: #000;
+    }
+
+    .carousel-item img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .carousel-indicators {
+        margin-bottom: 1rem;
+    }
+
+    .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        opacity: 1;
+    }
+
+    .hero-section .row {
+        display: flex;
+        align-items: stretch;
+        height: 100%;
+        min-height: 500px;
+    }
+
+    .hero-section .col-lg-6 {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        height: 100%;
+    }
+
+    .hero-content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 100%;
+    }
+
+    .hero-intro {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .animated-text {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .hero-content {
+        gap: 0.5rem;
+    }
+
+    .my-services {
+        margin-top: auto;
+    }
+
+    #carouselExampleIndicators {
+        margin-top: 24px; /* ou la valeur que tu souhaites, par exemple 32px ou 40px */
+    }
+    </style>
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-indicators">
+            {% for image in carousel_images %}
+            <button type="button" 
+                    data-bs-target="#carouselExampleIndicators" 
+                    data-bs-slide-to="{{ forloop.counter0 }}" 
+                    {% if forloop.first %}class="active" aria-current="true"{% endif %} 
+                    aria-label="Slide {{ forloop.counter }}">
+            </button>
+            {% endfor %}
+        </div>
+        
+        <div class="carousel-inner">
+            {% for image in carousel_images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image.image.url }}" 
+                     class="d-block w-100" 
+                     alt="{{ image.title }}"
+                     loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>{{ image.title }}</h5>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Pause du carrousel au survol
+        const carousel = document.querySelector('#carouselExampleIndicators');
+        carousel.addEventListener('mouseenter', function() {
+            const carouselInstance = bootstrap.Carousel.getInstance(this);
+            if (carouselInstance) {
+                carouselInstance.pause();
+            }
+        });
+        
+        carousel.addEventListener('mouseleave', function() {
+            const carouselInstance = bootstrap.Carousel.getInstance(this);
+            if (carouselInstance) {
+                carouselInstance.cycle();
+            }
+        });
+    });
+    </script>
+{% else %}
+    <!-- Debug info -->
+    {% if debug %}
+    <div class="alert alert-warning">
+        Aucune image trouvée dans le carrousel
+    </div>
+    {% endif %}
+{% endif %} 

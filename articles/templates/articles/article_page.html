@@ -72,14 +72,15 @@
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                 </form>
                 <div class="existing-comments mt-4">
-                    {% for comment in comments %}
+                    {% include 'articles/comments.html' %}
+                    <!--{% for comment in comments %}
                     <div class="comment border-bottom py-2">
                         <p class="mb-1"><strong>{{ comment.author }}</strong> le {{ comment.date_posted }}</p>
                         <p class="mb-0">{{ comment.content }}</p>
                     </div>
                     {% empty %}
                     <p>Aucun commentaire pour le moment.</p>
-                    {% endfor %}
+                    {% endfor %}-->
                 </div>
             </div>
             <!-- Articles similaires -->

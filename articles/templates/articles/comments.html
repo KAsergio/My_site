@@ -1,0 +1,56 @@
+{% for comment in comments %}
+<div class="comment border-bottom py-2">
+    <p class="mb-1"><strong>{{ comment.author }}</strong> le {{ comment.date_posted }}</p>
+    <p class="mb-0">{{ comment.content }}</p>
+    
+    <!-- Réponses aux commentaires -->
+    {% if comment.replies.all %}
+    <div class="replies ms-4 mt-2">
+        {% for reply in comment.replies.all %}
+        <div class="reply border-start ps-3 py-2">
+            <p class="mb-1"><strong>{{ reply.author }}</strong> le {{ reply.date_posted }}</p>
+            <p class="mb-0">{{ reply.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Bouton de réponse -->
+    <button class="btn btn-sm btn-outline-primary mt-2 reply-button" data-comment-id="{{ comment.id }}">
+        Répondre
+    </button>
+    
+    <!-- Formulaire de réponse -->
+    <form method="post" action="{% url 'articles:article' slug=article.slug %}" class="reply-form mt-2" style="display: none;">
+        {% csrf_token %}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <input type="text" name="author" class="form-control mb-2" placeholder="Votre nom">
+        <input type="text" name="contact" class="form-control mb-2" placeholder="Votre contact (email ou téléphone)">
+        <textarea name="comment" rows="2" class="form-control mb-2" placeholder="Votre réponse..." required></textarea>
+        <button type="submit" class="btn btn-primary btn-sm">Envoyer la réponse</button>
+    </form>
+</div>
+{% empty %}
+<p>Aucun commentaire pour le moment.</p>
+{% endfor %}
+
+<style>
+.replies {
+    border-left: 2px solid #e9ecef;
+}
+.reply {
+    background-color: #f8f9fa;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion des boutons de réponse
+    document.querySelectorAll('.reply-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const form = this.nextElementSibling;
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+});
+</script> 
